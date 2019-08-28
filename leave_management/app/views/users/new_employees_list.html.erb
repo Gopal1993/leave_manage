@@ -1,0 +1,85 @@
+<h4>New Employees List</h4>
+<style>
+.zui-table {
+    border: solid 1px #DDEEEE;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+}
+.zui-table thead th {
+    background-color: #DDEFEF;
+    border: solid 1px #DDEEEE;
+    color: #336B6B;
+    padding: 10px;
+    text-align: left;
+    text-shadow: 1px 1px 1px #fff;
+}
+.zui-table tbody td {
+    border: solid 1px #DDEEEE;
+    color: #333;
+    padding: 10px;th
+    text-shadow: 1px 1px 1px #fff;
+}
+.approve {
+    padding: 9px 8px;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .2);
+    width: 85%;
+    border: none;
+    background: #fb641b;
+    color: #fff;
+    font-size: 11px;
+}
+</style>
+<% if @new_employees.blank? %>
+  <p>No new Employee to show</p>
+<%else%>
+
+    <table class="zui-table">
+      <thead>
+        <tr >
+          <th >Employee Id</th>
+          <th >Employee Name</th>
+          <th >Employee Email</th>
+          <th >Employee Designation</th>
+          <th >Employee Status</th>
+          <th >Employee Status Approval</th>
+          
+        </tr>
+      </thead>
+      <tbody >
+        <% unless @new_employees.blank?
+          @new_employees.each do |us| %>
+            <tr>
+             <td class="first"><%= us.id %></td>
+              <td ><%= us.name %></td>
+              <td ><%= us.email %></td>
+              <td ><%= us.designation %></td>
+              <td ><%= us.status %></td>
+              <td ><%= button_tag "Approve", 
+                   onclick: "approveEmpStatus(this)" ,
+                   class: "approve"
+                    %>
+               </td>
+            </tr>
+          <% end
+        end %>
+      </tbody>
+    </table>
+ <%end%>
+    <script>
+    function approveEmpStatus(e1){
+      var emp_id = e1.parentNode.parentNode.cells[0].textContent
+      $.ajax({
+
+         url: "activate_employees_status?id="+emp_id,
+         method: "POST",
+         contentType: "application/json",
+         success: function() {
+           
+        }
+
+       });        
+    }
+    
+    </script>

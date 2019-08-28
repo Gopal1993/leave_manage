@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Leave Management</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+  <body>
+
+    <% if user_signed_in? %>
+       <% if current_user.designation == "hr" %>
+       <%= render 'navbar/hr_navbar' %>
+        <% else %>
+        <%= render 'navbar/employee_navbar' %>
+        <% end %>
+    <% end %>
+    <%= yield %>
+  </body>
+</html>
+

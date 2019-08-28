@@ -1,0 +1,122 @@
+<h4>Employe New Leaves List</h4>
+<style>
+.zui-table {
+    border: solid 1px #DDEEEE;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+}
+.zui-table thead th {
+    background-color: #DDEFEF;
+    border: solid 1px #DDEEEE;
+    color: #336B6B;
+    padding: 10px;
+    text-align: left;
+    text-shadow: 1px 1px 1px #fff;
+}
+.zui-table tbody td {
+    border: solid 1px #DDEEEE;
+    color: #333;
+    padding: 10px;th
+    text-shadow: 1px 1px 1px #fff;
+}
+.approve {
+    padding: 9px 8px;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .2);
+    width: 85%;
+    border: none;
+    background: #fb641b;
+    color: #fff;
+    font-size: 11px;
+}
+.decline {
+    padding: 9px 8px;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .2);
+    width: 85%;
+    border: none;
+    background: #ff0000;
+    color: #fff;
+    font-size: 11px;
+}
+</style>
+<% if @new_leaves.blank? %>
+  <p>No new Employee Leaves to show</p>
+<%else%>
+
+    <table class="zui-table">
+      <thead>
+        <tr >
+          <th >Employee Id</th>
+          <th>Leave Applied From</th>
+          <th>Leave Applied To</th>
+          <th>Leave Type</th>
+          <th>Leave Status</th>
+          <th>Comment</th>
+          <th >Employee Leaves Approval</th>
+          <th >Employee Leaves Declienation</th>
+          
+        </tr>
+      </thead>
+      <tbody >
+        <% unless @new_leaves.blank?
+          @new_leaves.each do |as| %>
+            <tr>
+             <td class="first"><%= as.user_id %></td>
+              <td ><%= as.leave_from %></td>
+              <td ><%= as.leave_to %></td>
+              <td ><%= as.leave_type %></td>
+              <td ><%= as.status %></td>
+              <td ><%= as.comment %></td>
+              <td ><%= button_tag "Approve", 
+                   onclick: "approveEmpLeaves(this)" ,
+                   class: "approve"
+                    %>
+               </td>
+               <td ><%= button_tag "Decline", 
+                   onclick: "declineEmpLeaves(this)" ,
+                   class: "decline"
+                    %>
+               </td>
+            </tr>
+          <% end
+        end %>
+      </tbody>
+    </table>
+    <% end %>
+    <script>
+    function approveEmpLeaves(e1){
+      var emp_id = e1.parentNode.parentNode.cells[0].textContent;
+      var applied_leave_from = e1.parentNode.parentNode.cells[1].textContent;
+      var applied_leave_to = e1.parentNode.parentNode.cells[2].textContent;
+      $.ajax({
+
+         url: "approve_employees_leaves?id="+emp_id+"&leave_from="+applied_leave_from+"&leave_to="+applied_leave_to,
+
+         method: "POST",
+         contentType: "application/json",
+         success: function() {
+           
+        }
+
+       });        
+    }
+
+    function declineEmpLeaves(e1){
+      var emp_id = e1.parentNode.parentNode.cells[0].textContent;
+      var applied_leave_from = e1.parentNode.parentNode.cells[1].textContent;
+      var applied_leave_to = e1.parentNode.parentNode.cells[2].textContent;
+
+      $.ajax({
+
+         url: "decline_employees_leaves?id="+emp_id+"&leave_from="+applied_leave_from+"&leave_to="+applied_leave_to,
+         method: "POST",
+         contentType: "application/json",
+         success: function() {
+           
+        }
+
+       });        
+    }
+    </script>

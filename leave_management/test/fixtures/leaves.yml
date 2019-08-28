@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  leave_to: MyString
+  leave_from: MyString
+  leave_type: 1
+  status: 1
+  comment: MyString
+
+two:
+  leave_to: MyString
+  leave_from: MyString
+  leave_type: 1
+  status: 1
+  comment: MyString

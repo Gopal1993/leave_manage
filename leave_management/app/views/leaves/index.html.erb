@@ -1,0 +1,57 @@
+<style>
+.zui-table {
+    border: solid 1px #DDEEEE;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+}
+.zui-table thead th {
+    background-color: #DDEFEF;
+    border: solid 1px #DDEEEE;
+    color: #336B6B;
+    padding: 10px;
+    text-align: left;
+    text-shadow: 1px 1px 1px #fff;
+}
+.zui-table tbody td {
+    border: solid 1px #DDEEEE;
+    color: #333;
+    padding: 10px;
+    text-shadow: 1px 1px 1px #fff;
+}
+
+</style>
+<h4>Leaves List</h4>
+
+<% if @leaves.blank? %>
+        <p>you have not yet apply for any leave </p>
+<%else%>       
+    <table class="zui-table">
+      <thead>
+      <tr>
+          <th >Employee Id</th>
+          <th>Leave Applied From</th>
+          <th>Leave Applied To</th>
+          <th>Leave Type</th>
+          <th>Leave Status</th>
+          <th>Comment</th>
+        </tr>
+      </thead>
+      <tbody >
+      
+      
+        <% unless @leaves.blank?
+          @leaves.each do |ls| %>
+            <tr>
+            <td ><%= ls.user_id %></td>
+            <td ><%= ls.leave_from %></td>
+             <td ><%= ls.leave_to %></td>
+             <td ><%= ls.leave_type %></td>
+             <td ><%= ls.status %></td>
+             <td ><%= ls.comment %></td>
+            </tr> 
+          <% end
+        end %>
+      <% end %>
+      </tbody>
+    </table>

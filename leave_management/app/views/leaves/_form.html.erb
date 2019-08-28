@@ -1,0 +1,85 @@
+<%= stylesheet_link_tag 'new_leave', media: 'print, screen' %>
+
+<div class="pro_sell-2">
+<%= simple_form_for(Leave.new) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+ 
+  <div style="display: flex;">
+
+     <div><%= f.input :leave_from,
+     
+      required: true,
+      
+      label: false,
+      input_html: { class: "datepicker", id: "date_from", placeholder: "Select Date From", oninput: "getFromDate()" }%></div>
+      
+      <div> <%= f.input :leave_to, 
+     
+      required: true,
+      
+      label: false,
+      input_html: { class: "datepicker", id: "date_to", placeholder: "Select Date to", oninput: "getDate()" }%></div>
+      <div><button type="button" class="btn-primary" onclick="checkDate()">Confirm</button> </div>
+      <div><%= f.select :leave_type, Leave.leave_types.keys.to_a, 
+      prompt: "Select Leave type" %></div>
+        
+    
+      <div><%= f.input :image, as: :file, label: false, input_html: {multiple: false,style: "display:none",id: "img"}, class: "section1" %></div>
+        
+        
+        
+  
+                
+  
+    
+
+  </div>
+<div style="width: 25em !important; "><%= f.text_area :comment,
+                required: true,
+                label: false,
+                placeholder: "Comment",
+                input_html: {  class: "form-control comm" } %></div>
+  <%= f.button :submit, class: "btn-success" %>
+<% end %>
+</div>
+
+<script>
+$(document).ready(function(){
+    $('#date_to').datepicker({  
+      minDate:new Date()
+   });
+    $('#date_from').datepicker({  
+      minDate:new Date()
+   });
+    
+  });
+  function getFromDate(){
+    var date_from = $('[name="leave[leave_from]"]').val();
+    
+    return date_from;
+  }
+  function getDate(){
+    var date_to = $('[name="leave[leave_to]"]').val();
+   
+    return date_to;
+  }
+   
+  function checkDate(){
+   var date_from = getFromDate().split("/");
+
+   var date_to = getDate().split("/");
+   var date_from_date = parseInt(date_from[1]);
+   var date_from_month = parseInt(date_from[0]);
+   var date_to_date = parseInt(date_to[1]);
+   var date_to_month = parseInt(date_to[0]);
+   var check_date_difference = date_to_date - date_from_date;
+   var check_month_difference = date_to_month - date_from_month;
+   if(check_date_difference > 2 || check_month_difference > 0) {
+     $("#img").show();
+     alert("Please upload a document in pdf,jpeg or jpg format in 200kb");
+   }
+  }
+  
+
+</script>
